@@ -1,22 +1,23 @@
-import functools
 from datetime import datetime
+import sys
 
-def decorater(function):
-  @functools.wraps(function)
-  def wrapped(*args, **kwargs):
-    result = function(*args, **kwargs)
-    with open(f'{function.__name__}', 'a') as f:
-      print(datetime.now(), result, file=f)
-    return result 
-  return wrapped
+def decorator(function):
+    def wrapped(*args, **kwargs):
+        try:
+            result = function(*args, **kwargs)
+            return result
+        except Exception:
+            exception_type =  sys.exc_info()[1]
+            with open(f'{function.__name__}', 'a') as file:
+                file.write(f'{datetime.now()} Вид исключения: {exception_type}')
+                return exception_type
+    return wrapped
 
-@decorater
-def difference_numbers(a, b):
-    return {a : a - b, b : b - a}
+@decorator
+def difference_of_num(a, b):
+    return {'Разность a - b' : a[0] - b, 'Разность b - a' : b - a }
 
-@decorater
-def squaring(num):
-    return {num : num ** 2}
+@decorator
+def squaring_num(num):
+    return { 'Квадрат' : (num ** 2) / 0}
 
-print(difference_numbers(2, 3))
-print(squaring(3))

@@ -10,11 +10,9 @@ def to_json(function):
 # Функции для примера
 @to_json
 def difference_numbers(a, b):
-    return {a : a - b, b : b - a}
+    return [f'difference of {a} and {b}',{a : a - b, b : b - a}]
 
 @to_json
 def squaring(num):
-    return {num : num ** 2}
+    return [f'squar of {num} :',{num : num ** 2}]
 
-print(difference_numbers(2, 3))
-print(squaring(3))
